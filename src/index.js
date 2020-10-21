@@ -7,7 +7,4 @@ const container = document.createElement('div')
 container.id = 'root'
 document.body.appendChild(container)
 
-ReactDOM.render(
-          <App />, 
-  container
-)
+ReactDOM.render(<App />, container)

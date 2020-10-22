@@ -1,76 +1,89 @@
 // @ts-nocheck
+import {inject, observer} from 'mobx-react'
 import React from 'react'
 import ST from './index.scss'
 
 
+@observer
+@inject('store')
 class Login extends React.Component {
 
   state = {
-    login:'',
-    password:'',
-    name:'',
-    email:'',
-    isUserHaveProfile: false
+    isRegistrationOpen: this.authStore.isRegistrationOpen
   }
+
+  authStore = this.props.store.authStore
 
   getLogin = (ev)=>{
     const { value } = ev.target
-    this.setState({login:value})
-    console.log(this.state.login);
+    this.authStore.setLogin(value)
   }
 
   getPassword = (ev) => {
     const { value } = ev.target
-    this.setState({password:value})
-    console.log(this.state.password);
+    this.authStore.setPassword(value)
   }
 
   getName = (ev) => {
     const { value } = ev.target
-    this.setState({name:value})
-    console.log(this.state.name);
+    this.authStore.setName(value)
   }
 
   getEmail = (ev) => {
     const { value } = ev.target
-    this.setState({email:value})
-    console.log(this.state.email);
+    this.authStore.setEmail(value)
   }
 
-  toggleForm = ()=>{
-   return (this.state.isUserHaveProfile)
-    ?null
-    : (
-      <div>
-        <div className={ST.name}>
+  singButtonOnCLick = () => {
+    console.log('this button work');
+    this.authStore.toggleRegistrationForm()
+  }
+
+  registrationForm = () =>{
+    console.log('this form is rendering');
+    return (
+      (this.state.isRegistrationOpen)
+      ? null
+      : (
+        <div>
+          <div className={ST.name}>
             <p>Name: </p> 
-            <input type='text' onChange={this.getName}/>
+            <input type='text' onChange={this.getName} value={this.authStore.name}/>
           </div>
           <div className={ST.email}>
             <p>Email: </p> 
-            <input type='email' onChange={this.getEmail}/>
+            <input type='email' onChange={this.getEmail} value={this.authStore.email}/>
           </div>
-      </div>
+        </div>
+      )
     )
   }
+  
+  
   render(){
+    
+    const singInName = (this.state.isRegistrationOpen)?'Sign in':'Back'
+    const login = (this.state.isRegistrationOpen)?'Login':'Registration'
+    const registrationForm = this.registrationForm()
+    
+
     return(
       <div className={ST.wrapper}>
-
         <div className={ST.loginForm}>
 
           <div className={ST.login}>
             <p>Login: </p>
-            <input type='text' onChange={this.getLogin}/>
+            <input type='text' onChange={this.getLogin} value={this.authStore.login}/>
           </div>
 
           <div className={ST.password}>
             <p>Password: </p> 
-            <input type='password' onChange={this.getPassword}/>
+            <input type='password' onChange={this.getPassword} value={this.authStore.password}/>
           </div>
 
-            {this.toggleForm()}
-          <div className={ST.submit}>submit</div>
+            {registrationForm}
+          <div className={ST.button} >{login}</div>
+          <div className={ST.button} onClick={this.singButtonOnCLick}>{singInName}</div>
         </div>
       </div>
     )

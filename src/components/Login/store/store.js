@@ -1,49 +1,64 @@
 import axios from 'axios'
 import { action, observable, computed } from 'mobx'
-import {getUsers} from './transport'
+import {getUsers, sendToken} from './transport'
 
 class Store  {
+  @observable login = ''
+  @observable password = ''
+  @observable name = ''
+  @observable email = ''
+  @observable isRegistrationOpen = true
+  @observable isActive = false
 
-@observable login = ''
+  currentUser = {}
 
-@observable password = ''
+  @computed get userData () {
+    const {login,password,name,email} = this
+    return {login,password,name,email}
+  }
 
-@observable name = ''
+  @action setLogin = (login) => {
+    this.login = login
+  }
 
-@observable email = ''
+  @action setPassword = (password) => {
+    this.password = password
+  }
 
-@observable isRegistrationOpen = false
+  @action setName = (name) => {
+    this.name = name
+  }
 
-@observable isActive = false
+  @action setEmail = (email) => {
+    this.email = email
+  }
 
-currentUser = {}
+  @action toggleRegistrationForm() {
+    this.isRegistrationOpen = !this.isRegistrationOpen
+    this.clear()
+  }
 
-@computed get userData () {
-  const {login,password,name,email} = this
-  return {login,password,name,email}
-}
+  @action createUser = () => {
+    const user = this.userData
+    user.isActive = this.isActive
+  }
 
-@action setLogin = (login) => {
-  this.login = login
-}
+  @action clear = () => {
+    this.login = ''
+    this.password = ''
+    this.email = ''
+    this.name = ''
+  }
 
-@action setPassword = (password) => {
-  this.password = password
-}
+  token = () => {
+    const token = sendToken('123')
+    console.log('token: ', token);
 
-@action setName = (name) => {
-  this.name = name
-}
+  }
 
-@action setEmail = (email) => {
-  this.email = email
-}
-
-@action toggleRegistrationForm() {
-  console.log('this toggle work');
-  this.isRegistrationOpen = !this.isRegistrationOpen
-}
-
+  init = () =>{
+    console.log('store is created and fine');
+  }
 }
 
 const authStore = new Store()

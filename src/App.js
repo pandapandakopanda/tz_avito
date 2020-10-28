@@ -6,11 +6,9 @@ import MainPage from './components/MainPage'
 import Header from './components/Header'
 
 
-
-
 class App extends React.Component {
-  render(){
-    return(
+  render() {
+    return (
       <div className={ST.wrapper}>
         <Header />
         <MainPage />

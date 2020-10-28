@@ -7,8 +7,6 @@ module.exports = {
   },
   plugins: [
     'babel',
-    'jest',
-    'react-hooks',
   ],
   env: {
     browser: true,
@@ -117,10 +115,4 @@ module.exports = {
     'import/no-cycle': 0,
 
   },
-  settings: {
-    flowtype: {
-      onlyFilesWithFlowAnnotation: true,
-    },
-  },
-
 }

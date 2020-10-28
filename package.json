@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "eslint": "eslint --fix ./src"
   },
   "author": "Julia Balashova <ska-keda@yandex.ru>",
   "license": "ISC",
@@ -19,7 +20,9 @@
     "body-parser": "*",
     "css-loader": "^4.2.0",
     "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
     "eslint-loader": "^4.0.2",
+    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",

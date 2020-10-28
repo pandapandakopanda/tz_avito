@@ -4,68 +4,73 @@ import React from 'react'
 import ST from './index.scss'
 
 
-@observer
 @inject('store')
+@observer
 class Login extends React.Component {
-
-  state = {
-    isRegistrationOpen: this.authStore.isRegistrationOpen
-  }
-
   authStore = this.props.store.authStore
 
-  getLogin = (ev)=>{
+  componentDidMount(){
+    this.authStore.init()
+  }
+
+  handleChangeLogin = (ev)=>{
     const { value } = ev.target
     this.authStore.setLogin(value)
   }
 
-  getPassword = (ev) => {
+  handleChangePassword = (ev) => {
     const { value } = ev.target
     this.authStore.setPassword(value)
   }
 
-  getName = (ev) => {
+  handleChangeName = (ev) => {
     const { value } = ev.target
     this.authStore.setName(value)
   }
 
-  getEmail = (ev) => {
+  handleChangeEmail = (ev) => {
     const { value } = ev.target
     this.authStore.setEmail(value)
   }
 
   singButtonOnCLick = () => {
-    console.log('this button work');
     this.authStore.toggleRegistrationForm()
   }
 
-  registrationForm = () =>{
-    console.log('this form is rendering');
+  handleSubmitButton = () => {
+    (this.authStore.isRegistrationOpen) 
+    ? this.authStore.createUser()
+    : this.authStore.token()
+  }
+
+  registrationForm = (regStatus) =>{
     return (
-      (this.state.isRegistrationOpen)
-      ? null
-      : (
+      (regStatus)
+      ? (
         <div>
           <div className={ST.name}>
             <p>Name: </p> 
-            <input type='text' onChange={this.getName} value={this.authStore.name}/>
+            <input type='text' onChange={this.handleChangeName} value={this.authStore.name}/>
           </div>
           <div className={ST.email}>
             <p>Email: </p> 
-            <input type='email' onChange={this.getEmail} value={this.authStore.email}/>
+            <input type='email' onChange={this.handleChangeEmail} value={this.authStore.email}/>
           </div>
         </div>
       )
+      :null
     )
   }
   
   
-  render(){
+  render(){    
+    const { isRegistrationOpen } = this.authStore
+    const signTitle = (isRegistrationOpen)?'Back':'Registration'
+    const loginTitle = (isRegistrationOpen)?'Submit':'Login'
+    const registrationForm = this.registrationForm(isRegistrationOpen)
     
-    const singInName = (this.state.isRegistrationOpen)?'Sign in':'Back'
-    const login = (this.state.isRegistrationOpen)?'Login':'Registration'
-    const registrationForm = this.registrationForm()
-    
+
+    const { login, password } = this.props.store.authStore
 
     return(
       <div className={ST.wrapper}>
@@ -73,17 +78,17 @@ class Login extends React.Component {
 
           <div className={ST.login}>
             <p>Login: </p>
-            <input type='text' onChange={this.getLogin} value={this.authStore.login}/>
+            <input type='text' onChange={this.handleChangeLogin} value={login}/>
           </div>
 
           <div className={ST.password}>
             <p>Password: </p> 
-            <input type='password' onChange={this.getPassword} value={this.authStore.password}/>
+            <input type='password' onChange={this.handleChangePassword} value={password}/>
           </div>
 
             {registrationForm}
-          <div className={ST.button} >{login}</div>
-          <div className={ST.button} onClick={this.singButtonOnCLick}>{singInName}</div>
+          <div className={ST.button} onClick={this.handleSubmitButton}>{loginTitle}</div>
+          <div className={ST.button} onClick={this.singButtonOnCLick}>{signTitle}</div>
         </div>
       </div>
     )

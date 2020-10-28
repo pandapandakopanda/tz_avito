@@ -5,7 +5,7 @@ const users = {
   user: (id) => `${BASE_URL}/users/${id}`,
 }
 
-const token = `${BASE_URL}/api-token-auth`
+const token = `${BASE_URL}/api-token-auth/`
 
 
 const urls = {

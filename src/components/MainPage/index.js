@@ -5,6 +5,7 @@ import Login from '../Login'
 
 class MainPage extends React.Component {
   render(){
+    const { store } = this.props
     return(
       <div className={ST.wrapper}>
         <Login />
